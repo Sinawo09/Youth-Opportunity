@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="View and manage your saved youth opportunities." />
+  <title>Saved Opportunities – Youth Opportunity Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="Youth Opportunity Portal Home">
+        <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span>Youth Opportunity Portal</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
+      <nav id="main-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="opportunities.html">Opportunities</a></li>
+          <li><a href="saved-opportunities.html">Saved Opportunities</a></li>
+          <li><a href="resources.html">Career Resources</a></li>
+          <li><a href="cv-builder.html">CV Builder</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Saved Opportunities</h1>
+    <p>Keep your favourite opportunities available when you return.</p>
+  </div>
+
+  <main id="main">
+    <div class="section-inner" style="padding:1.5rem 1rem">
+      <div class="section-header">
+        <div>
+          <h2>Your saved list</h2>
+          <p class="results-info" id="saved-count" aria-live="polite">Loading saved opportunities…</p>
+        </div>
+        <a href="opportunities.html" class="btn btn-primary btn-sm">Browse Opportunities</a>
+      </div>
+      <div id="saved-content" class="cards-grid" aria-live="polite">
+        <div class="loading-state" role="status"><span class="spinner" aria-hidden="true"></span><span>Loading your saved opportunities…</span></div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-disclaimer"><strong>Disclaimer:</strong> This portal contains sample and publicly available demonstration information. Always verify opportunities directly with the organisation.</div>
+      <div class="footer-bottom"><p>© 2025 Youth Opportunity &amp; Skills Portal · <a href="index.html" style="color:rgba(255,255,255,0.6)">Home</a> · <a href="contact.html" style="color:rgba(255,255,255,0.6)">Contact</a></p></div>
+    </div>
+  </footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/saved.js"></script>
+</body>
+</html>

@@ -24,7 +24,9 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="opportunities.html">Opportunities</a></li>
+          <li><a href="saved-opportunities.html">Saved Opportunities</a></li>
           <li><a href="resources.html">Career Resources</a></li>
+          <li><a href="cv-builder.html">CV Builder</a></li>
           <li><a href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -71,6 +73,15 @@
             <option value="month">Closing This Month</option>
           </select>
         </div>
+        <div class="filter-group">
+          <label for="sort-opportunities">Sort by</label>
+          <select id="sort-opportunities" aria-label="Sort opportunities">
+            <option value="deadline">Deadline: soonest</option>
+            <option value="title">Title: A–Z</option>
+            <option value="organisation">Organisation: A–Z</option>
+            <option value="newest">Newest first</option>
+          </select>
+        </div>
         <div style="display:flex;gap:0.5rem;align-items:flex-end">
           <button type="submit" class="btn btn-primary btn-sm">Filter</button>
           <button type="button" id="clear-filters" class="btn btn-outline btn-sm">Clear</button>
@@ -92,7 +103,7 @@
         <strong>Disclaimer:</strong> Opportunities listed are for demonstration purposes. Always verify directly with the organisation. Expired opportunities are removed monthly.
       </div>
       <div class="footer-bottom">
-        <p>© 2025 Youth Opportunity & Skills Portal · <a href="index.html" style="color:rgba(255,255,255,0.6)">Home</a> · <a href="contact.html" style="color:rgba(255,255,255,0.6)">Contact</a></p>
+        <p>© 2026 Youth Opportunity & Skills Portal · <a href="index.html" style="color:rgba(255,255,255,0.6)">Home</a> · <a href="contact.html" style="color:rgba(255,255,255,0.6)">Contact</a></p>
       </div>
     </div>
   </footer>

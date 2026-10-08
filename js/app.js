@@ -26,7 +26,13 @@ function getCategoryLabel(cat) {
 }
 
 function getSavedIds() {
-  return JSON.parse(localStorage.getItem('savedOpps') || '[]');
+  try {
+    const saved = JSON.parse(localStorage.getItem('savedOpps') || '[]');
+    return Array.isArray(saved) ? saved.filter(id => Number.isInteger(id)) : [];
+  } catch (error) {
+    console.warn('Saved opportunities could not be read.', error);
+    return [];
+  }
 }
 
 function toggleSave(id) {
@@ -76,7 +82,9 @@ function renderCard(opp) {
         </div>
         <div class="card-actions">
           <a href="opportunity-details.html?id=${opp.id}" class="btn btn-outline btn-sm">View Details</a>
-          <a href="${opp.applicationLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Apply Now →</a>
+          ${opp.applicationUrl
+            ? `<a href="${opp.applicationUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Apply Now →</a>`
+            : `<span class="application-unavailable">Application link pending</span>`}
         </div>
       </div>
     </article>`;

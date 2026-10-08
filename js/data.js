@@ -1,9 +1,9 @@
-const opportunities = [
+const rawOpportunities = [
   {
     id: 1,
     title: "SA Youth Mobi",
     organisation: "SA Youth",
-    organisationUrl: "https://sayouth.mobi",
+    sourceUrl: "https://sayouth.mobi",
     category: "skills-programme",
     location: "National",
     closingDate: "2027-12-31",
@@ -14,7 +14,7 @@ const opportunities = [
     qualifications: ["No minimum qualification required to register"],
     documents: ["ID number", "Basic profile details"],
     applicationInstructions: "Register on SA Youth at sayouth.mobi, create your profile and apply for opportunities directly on the platform. The service is free and easy to use on a smartphone.",
-    applicationLink: "https://sayouth.mobi",
+    applicationUrl: "https://sayouth.mobi",
     stipend: "Free access to matched opportunities",
     dateAdded: "2026-10-06",
     tags: ["national", "jobs", "learnerships", "internships", "free"]
@@ -23,7 +23,7 @@ const opportunities = [
     id: 2,
     title: "NSFAS Bursary for University and TVET Students",
     organisation: "NSFAS",
-    organisationUrl: "https://nsfas.org.za",
+    sourceUrl: "https://nsfas.org.za",
     category: "bursary",
     location: "National",
     closingDate: "2027-11-30",
@@ -34,7 +34,7 @@ const opportunities = [
     qualifications: ["Grade 12 / Matric for first-time applicants", "Continuing students must remain academically eligible"],
     documents: ["ID copy", "Parent or guardian ID copies", "Proof of income", "Proof of registration or acceptance at an institution"],
     applicationInstructions: "Apply via myNSFAS on the official NSFAS portal. Create an account, complete your application and upload all required supporting documents.",
-    applicationLink: "https://my.nsfas.org.za",
+    applicationUrl: "https://my.nsfas.org.za",
     stipend: "Full bursary support including tuition, accommodation and meals",
     dateAdded: "2026-10-06",
     tags: ["bursary", "university", "TVET", "government", "funding"]
@@ -43,7 +43,7 @@ const opportunities = [
     id: 3,
     title: "Harambee Youth Employment Accelerator",
     organisation: "Harambee Youth Employment Accelerator",
-    organisationUrl: "https://harambee.co.za",
+    sourceUrl: "https://harambee.co.za",
     category: "skills-programme",
     location: "National",
     closingDate: "2027-12-15",
@@ -54,7 +54,7 @@ const opportunities = [
     qualifications: ["Grade 12 / Matric preferred for many roles", "No minimum qualification required to register"],
     documents: ["ID copy", "CV", "Proof of residence", "Matric certificate if available"],
     applicationInstructions: "Create a profile on the Harambee platform, complete the readiness steps and complete online assessments. The platform then matches you with relevant work opportunities.",
-    applicationLink: "https://harambee.co.za",
+    applicationUrl: "https://harambee.co.za",
     stipend: "Free programme access; matched to paid work opportunities",
     dateAdded: "2026-10-06",
     tags: ["job matching", "work-readiness", "employment", "free", "national"]
@@ -63,7 +63,7 @@ const opportunities = [
     id: 4,
     title: "YES Programme",
     organisation: "Youth Employment Service (YES)",
-    organisationUrl: "https://yes4youth.co.za",
+    sourceUrl: "https://yes4youth.co.za",
     category: "internship",
     location: "National",
     closingDate: "2027-10-31",
@@ -74,7 +74,7 @@ const opportunities = [
     qualifications: ["Matric is common, but no formal barrier is imposed for candidate registration"],
     documents: ["ID copy", "CV", "Proof of residence", "Academic documents if available"],
     applicationInstructions: "Apply through the official YES programme website and follow the steps for registering your profile and applying for available placements.",
-    applicationLink: "https://yes4youth.co.za",
+    applicationUrl: "https://yes4youth.co.za",
     stipend: "Work placement through participating employers; stipends vary by employer",
     dateAdded: "2026-10-06",
     tags: ["YES", "work experience", "youth", "employment", "national"]
@@ -83,7 +83,7 @@ const opportunities = [
     id: 5,
     title: "NYDA Youth Development and Enterprise Support",
     organisation: "National Youth Development Agency",
-    organisationUrl: "https://www.nyda.gov.za",
+    sourceUrl: "https://www.nyda.gov.za",
     category: "course",
     location: "National",
     closingDate: "2027-12-31",
@@ -94,7 +94,7 @@ const opportunities = [
     qualifications: ["No minimum qualification required"],
     documents: ["ID copy", "Proof of residence", "Business idea or proposal if applying for enterprise support"],
     applicationInstructions: "Contact the NYDA through its official website and follow the application process for the relevant youth development or enterprise programme.",
-    applicationLink: "https://www.nyda.gov.za",
+    applicationUrl: "https://www.nyda.gov.za",
     stipend: "Support varies by programme; some opportunities include business support or grants",
     dateAdded: "2026-10-06",
     tags: ["NYDA", "entrepreneurship", "skills", "development", "youth"]
@@ -103,7 +103,7 @@ const opportunities = [
     id: 6,
     title: "Eskom Engineering Bursary Programme",
     organisation: "Eskom",
-    organisationUrl: "https://www.eskom.co.za/careers",
+    sourceUrl: "https://www.eskom.co.za/careers",
     category: "bursary",
     location: "National",
     closingDate: "2027-09-30",
@@ -114,7 +114,7 @@ const opportunities = [
     qualifications: ["Matric with strong results in Mathematics and Physical Science", "University registration or conditional acceptance"],
     documents: ["Certified ID copy", "Matric certificate", "Academic transcripts", "Proof of registration or admission", "Motivation letter"],
     applicationInstructions: "Apply through the Eskom careers portal and complete the official bursary application process before the listed closing date.",
-    applicationLink: "https://www.eskom.co.za/careers",
+    applicationUrl: "https://www.eskom.co.za/careers",
     stipend: "Full bursary support including tuition, living allowance and textbooks",
     dateAdded: "2026-10-06",
     tags: ["engineering", "bursary", "Eskom", "student", "energy"]
@@ -123,7 +123,7 @@ const opportunities = [
     id: 7,
     title: "Funza Lushaka Bursary Programme",
     organisation: "Department of Basic Education",
-    organisationUrl: "https://www.funzalushaka.dbe.gov.za",
+    sourceUrl: "https://www.funzalushaka.dbe.gov.za",
     category: "bursary",
     location: "National",
     closingDate: "2027-11-15",
@@ -134,7 +134,7 @@ const opportunities = [
     qualifications: ["Grade 12 / Matric for new applicants", "Admission to a teacher education programme"],
     documents: ["ID copy", "Matric certificate", "Proof of university admission", "Academic records if already studying"],
     applicationInstructions: "Apply through the official Funza Lushaka portal and follow the instructions for new and continuing applicants.",
-    applicationLink: "https://www.funzalushaka.dbe.gov.za",
+    applicationUrl: "https://www.funzalushaka.dbe.gov.za",
     stipend: "Tuition support and related study costs",
     dateAdded: "2026-10-06",
     tags: ["teaching", "bursary", "education", "public service", "national"]
@@ -143,7 +143,7 @@ const opportunities = [
     id: 8,
     title: "Fundi Skills and Learnership Programmes",
     organisation: "Fundi",
-    organisationUrl: "https://www.fundi.co.za",
+    sourceUrl: "https://www.fundi.co.za",
     category: "learnership",
     location: "National",
     closingDate: "2027-10-31",
@@ -154,7 +154,7 @@ const opportunities = [
     qualifications: ["Matric is often preferred, but entry-level programmes may accept diverse education backgrounds"],
     documents: ["ID copy", "CV", "Proof of residence", "Education certificates if available"],
     applicationInstructions: "Visit the official Fundi website and apply for current learnership or skills programmes through their online application process.",
-    applicationLink: "https://www.fundi.co.za",
+    applicationUrl: "https://www.fundi.co.za",
     stipend: "Training support varies by programme; some include workplace stipends",
     dateAdded: "2026-10-06",
     tags: ["fundi", "learnership", "skills", "work-readiness", "national"]
@@ -163,7 +163,7 @@ const opportunities = [
     id: 9,
     title: "CATHSSETA Skills and Learnership Opportunities",
     organisation: "CATHSSETA",
-    organisationUrl: "https://www.cathsseta.org.za",
+    sourceUrl: "https://www.cathsseta.org.za",
     category: "learnership",
     location: "National",
     closingDate: "2027-11-30",
@@ -174,7 +174,7 @@ const opportunities = [
     qualifications: ["Grade 12 / Matric is often preferred for learnership programmes"],
     documents: ["ID copy", "CV", "Matric certificate if available", "Proof of residence"],
     applicationInstructions: "Check the official CATHSSETA website and follow the application steps for accredited sectoral training opportunities and learnerships.",
-    applicationLink: "https://www.cathsseta.org.za",
+    applicationUrl: "https://www.cathsseta.org.za",
     stipend: "Training support and workplace learning opportunities vary by programme",
     dateAdded: "2026-10-06",
     tags: ["CATHSSETA", "learnership", "tourism", "hospitality", "arts"]
@@ -183,7 +183,7 @@ const opportunities = [
     id: 10,
     title: "Umuzi Academy Digital Skills and Learnerships",
     organisation: "Umuzi",
-    organisationUrl: "https://umuzi.org",
+    sourceUrl: "https://umuzi.org",
     category: "learnership",
     location: "Johannesburg",
     closingDate: "2027-10-15",
@@ -194,7 +194,7 @@ const opportunities = [
     qualifications: ["Grade 12 / Matric preferred; some programmes are open to entry-level candidates"],
     documents: ["ID copy", "CV", "Academic records if available", "Proof of residence"],
     applicationInstructions: "Apply through Umuzi's official website and follow the application process for the latest digital skills and learnership openings.",
-    applicationLink: "https://umuzi.org",
+    applicationUrl: "https://umuzi.org",
     stipend: "Programme support varies by intake and employer partner",
     dateAdded: "2026-10-06",
     tags: ["Umuzi", "digital skills", "tech", "learnership", "Johannesburg"]
@@ -202,12 +202,25 @@ const opportunities = [
 ];
 
 const categories = [
-  { value: "learnership", label: "Learnership", icon: "learnership" },
-  { value: "internship", label: "Internship", icon: "internship" },
-  { value: "bursary", label: "Bursary", icon: "bursary" },
-  { value: "course", label: "Course / Programme", icon: "course" },
-  { value: "skills-programme", label: "Skills Programme", icon: "skills" }
+  { value: "job", label: "Jobs", icon: "job" },
+  { value: "internship", label: "Internships", icon: "internship" },
+  { value: "learnership", label: "Learnerships", icon: "learnership" },
+  { value: "bursary", label: "Bursaries", icon: "bursary" },
+  { value: "course", label: "Courses", icon: "course" },
+  { value: "skills-programme", label: "Skills Programmes", icon: "skills" },
+  { value: "career-event", label: "Career Events", icon: "event" }
 ];
+
+const opportunities = rawOpportunities.map((opportunity, index) => ({
+  ...opportunity,
+  id: opportunity.id || index + 1,
+  requirements: Array.isArray(opportunity.eligibility) ? opportunity.eligibility : [],
+  verified: false,
+  verificationStatus: 'Link needs confirmation',
+  lastUpdated: '2026-10-08',
+  applicationUrl: opportunity.applicationUrl || null,
+  sourceUrl: opportunity.sourceUrl || null
+}));
 
 const locations = [
   "National",

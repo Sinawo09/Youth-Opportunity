@@ -120,6 +120,7 @@ nav a:hover, nav a.active { background: rgba(255,255,255,0.15); color: var(--whi
   transition: background var(--transition);
 }
 .search-bar button:hover { background: var(--accent-dark); }
+.search-bar button:disabled { cursor: wait; opacity: 0.78; background: var(--accent-dark); }
 
 /* ===== SCAM WARNING BANNER ===== */
 .scam-warning {

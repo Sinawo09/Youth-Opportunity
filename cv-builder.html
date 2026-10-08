@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Build and preview a simple professional CV for entry-level opportunities." />
+  <title>CV Builder – Youth Opportunity Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .cv-builder-layout { display: grid; grid-template-columns: 1fr; gap: 1.25rem; max-width: 1200px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+    .cv-form-card, .cv-preview-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--card-shadow); }
+    .cv-form-card { padding: 1.25rem; }
+    .cv-form-card h2, .cv-preview-card h2 { color: var(--primary); font-size: 1.15rem; margin-bottom: 1rem; }
+    .cv-form-section { margin-bottom: 1.5rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border); }
+    .cv-form-section:last-of-type { margin-bottom: 1rem; }
+    .cv-form-section h3 { margin-bottom: 0.75rem; font-size: 1rem; }
+    .cv-form-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
+    .cv-form-grid .form-group { margin-bottom: 0; }
+    .cv-form-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .cv-preview-card { padding: 1.25rem; align-self: start; position: sticky; top: 80px; }
+    .cv-preview { background: var(--white); border: 1px solid var(--border); padding: 1.25rem; min-height: 800px; color: #202020; }
+    .cv-preview h1 { font-size: 1.65rem; color: var(--primary); margin-bottom: 0.2rem; }
+    .cv-preview-contact { color: var(--text-muted); font-size: 0.78rem; margin-bottom: 1.2rem; }
+    .cv-preview-section { margin-top: 1.2rem; padding-top: 0.8rem; border-top: 2px solid var(--primary); }
+    .cv-preview-section h2 { margin-bottom: 0.5rem; color: var(--primary); font-size: 0.95rem; }
+    .cv-preview-section p, .cv-preview-section li { font-size: 0.78rem; line-height: 1.55; color: #374151; }
+    .cv-preview-section ul { padding-left: 1.1rem; }
+    .cv-preview-section li { margin-bottom: 0.25rem; }
+    .cv-preview-empty { color: var(--text-muted); font-size: 0.85rem; }
+    .cv-empty-list { color: var(--text-muted); font-size: 0.8rem; font-style: italic; margin: 0.3rem 0; }
+    .cv-preview-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .file-status { margin: 0.75rem 0; font-size: 0.8rem; color: var(--primary); }
+    .form-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+    .skill-chip { display: inline-flex; align-items: center; gap: 0.3rem; background: var(--primary-light); color: var(--primary); border-radius: 999px; padding: 0.25rem 0.6rem; font-size: 0.75rem; margin: 0.25rem; }
+    .remove-item { border: none; background: none; color: var(--danger); cursor: pointer; font-size: 1rem; padding: 0; }
+    .add-item { margin-top: 0.5rem; }
+    @media (min-width: 900px) { .cv-builder-layout { grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr); } .cv-form-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media print {
+      @page { size: A4; margin: 0; }
+      body { background: #fff; }
+      header, .page-hero, .cv-form-card, .cv-preview-actions, .toast, .skip-link, footer { display: none !important; }
+      main { padding: 0 !important; }
+      .cv-builder-layout { display: block; max-width: none; padding: 0; }
+      .cv-preview-card { position: static; box-shadow: none; border: none; padding: 0; }
+      .cv-preview { border: none; min-height: auto; padding: 0; }
+      .cv-preview-section { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="Youth Opportunity Portal Home"><svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg><span>Youth Opportunity Portal</span></a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav"><span></span><span></span><span></span></button>
+      <nav id="main-nav" aria-label="Main navigation"><ul><li><a href="index.html">Home</a></li><li><a href="opportunities.html">Opportunities</a></li><li><a href="saved-opportunities.html">Saved Opportunities</a></li><li><a href="resources.html">Career Resources</a></li><li><a href="cv-builder.html">CV Builder</a></li><li><a href="contact.html">Contact</a></li></ul></nav>
+    </div>
+  </header>
+
+  <div class="page-hero"><h1>Create Your CV</h1><p>Build a clear, professional CV for internships, learnerships and entry-level jobs.</p></div>
+
+  <main id="main">
+    <div class="cv-builder-layout">
+      <section class="cv-form-card" aria-labelledby="builder-form-title">
+        <h2 id="builder-form-title">CV Details</h2>
+        <form id="cv-form" novalidate>
+          <section class="cv-form-section"><h3>Personal Information</h3><div class="cv-form-grid">
+            <div class="form-group"><label for="cv-name">Full name</label><input id="cv-name" name="name" type="text" autocomplete="name" required minlength="2" /><span class="field-error" id="cv-name-error" role="alert"></span></div>
+            <div class="form-group"><label for="cv-email">Email address</label><input id="cv-email" name="email" type="email" autocomplete="email" required /><span class="field-error" id="cv-email-error" role="alert"></span></div>
+            <div class="form-group"><label for="cv-phone">Phone number</label><input id="cv-phone" name="phone" type="tel" autocomplete="tel" /></div>
+            <div class="form-group"><label for="cv-location">Location</label><input id="cv-location" name="location" type="text" autocomplete="address-level2" /></div>
+            <div class="form-group"><label for="cv-linkedin">LinkedIn URL</label><input id="cv-linkedin" name="linkedin" type="url" placeholder="https://linkedin.com/in/yourname" /></div>
+            <div class="form-group"><label for="cv-github">GitHub URL</label><input id="cv-github" name="github" type="url" placeholder="https://github.com/yourname" /></div>
+          </div></section>
+
+          <section class="cv-form-section"><h3>Personal Summary</h3><div class="form-group"><label for="cv-summary">Professional summary</label><textarea id="cv-summary" name="summary" rows="4" minlength="20" placeholder="Describe your strengths, interests and the role you are seeking."></textarea><span class="field-error" id="cv-summary-error" role="alert"></span></div></section>
+
+          <section class="cv-form-section"><h3>Education</h3><div id="education-list"></div><button type="button" class="btn btn-outline btn-sm add-item" data-add="education">+ Add Education</button></section>
+          <section class="cv-form-section"><h3>Skills</h3><div class="form-group"><label for="cv-skill-input">Add a skill</label><div class="form-row"><input id="cv-skill-input" type="text" maxlength="60" placeholder="e.g. HTML, CSS, JavaScript" /><button type="button" class="btn btn-outline btn-sm" id="add-skill">Add Skill</button></div></div><div id="skill-list"></div></section>
+          <section class="cv-form-section"><h3>Work Experience</h3><div id="experience-list"></div><button type="button" class="btn btn-outline btn-sm add-item" data-add="experience">+ Add Work Experience</button></section>
+          <section class="cv-form-section"><h3>Projects</h3><div id="project-list"></div><button type="button" class="btn btn-outline btn-sm add-item" data-add="project">+ Add Project</button></section>
+          <section class="cv-form-section"><h3>Certifications</h3><div id="certification-list"></div><button type="button" class="btn btn-outline btn-sm add-item" data-add="certification">+ Add Certification</button></section>
+
+          <div class="cv-form-actions"><button type="submit" class="btn btn-primary">Save CV</button><button type="button" class="btn btn-outline" id="print-cv">Print CV</button><button type="button" class="btn btn-outline" id="clear-cv">Clear Form</button></div>
+          <p id="cv-status" class="file-status" role="status"></p>
+        </form>
+      </section>
+
+      <aside class="cv-preview-card" aria-labelledby="builder-preview-title">
+        <h2 id="builder-preview-title">Live CV Preview</h2>
+        <div id="cv-preview" class="cv-preview" aria-live="polite"></div>
+        <div class="cv-preview-actions"><button type="button" class="btn btn-primary btn-sm" id="print-cv-secondary">Print CV</button><button type="button" class="btn btn-outline btn-sm" id="clear-cv-secondary">Clear CV Data</button></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer><div class="footer-inner"><div class="footer-disclaimer"><strong>Privacy:</strong> CV data is stored only in this browser. It is not uploaded to a server.</div><div class="footer-bottom"><p>© 2025 Youth Opportunity &amp; Skills Portal · <a href="index.html" style="color:rgba(255,255,255,0.6)">Home</a> · <a href="contact.html" style="color:rgba(255,255,255,0.6)">Contact</a></p></div></div></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/cv-builder.js"></script>
+</body>
+</html>

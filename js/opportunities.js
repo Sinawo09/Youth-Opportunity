@@ -2,10 +2,11 @@
 const ITEMS_PER_PAGE = 9;
 let currentPage = 1;
 let filtered = [...opportunities];
+let searchResultById = new Map();
 
 function getFilters() {
   return {
-    search: document.getElementById('search-input')?.value.toLowerCase().trim() || '',
+    search: document.getElementById('search-input')?.value.trim() || '',
     category: document.getElementById('filter-category')?.value || '',
     location: document.getElementById('filter-location')?.value || '',
     experience: document.getElementById('filter-experience')?.value || '',
@@ -16,11 +17,14 @@ function getFilters() {
 function applyFilters() {
   const f = getFilters();
   const now = new Date();
+  const naturalSearch = f.search ? searchYouthOrganisations(f.search, {
+    organisations: opportunities,
+    limit: opportunities.length
+  }) : { results: opportunities, analysis: { text: '' } };
+  searchResultById = new Map(naturalSearch.results.map(result => [result.id, result.searchScore]));
+
   filtered = opportunities.filter(opp => {
-    const matchSearch = !f.search || opp.title.toLowerCase().includes(f.search) ||
-      opp.organisation.toLowerCase().includes(f.search) ||
-      opp.description.toLowerCase().includes(f.search) ||
-      opp.tags.some(t => t.includes(f.search));
+    const matchSearch = !f.search || searchResultById.has(opp.id);
     const matchCat = !f.category || opp.category === f.category;
     const matchLoc = !f.location || opp.location === f.location;
     const matchExp = !f.experience || opp.experienceLevel === f.experience;
@@ -29,6 +33,15 @@ function applyFilters() {
     else if (f.closing === 'month') matchClose = getDaysUntil(opp.closingDate) <= 30 && getDaysUntil(opp.closingDate) >= 0;
     else if (f.closing === 'open') matchClose = new Date(opp.closingDate) >= now;
     return matchSearch && matchCat && matchLoc && matchExp && matchClose;
+  });
+
+  const sort = document.getElementById('sort-opportunities')?.value || 'deadline';
+  filtered.sort((a, b) => {
+    if (f.search) return (searchResultById.get(b.id) || 0) - (searchResultById.get(a.id) || 0);
+    if (sort === 'title') return a.title.localeCompare(b.title);
+    if (sort === 'organisation') return a.organisation.localeCompare(b.organisation);
+    if (sort === 'newest') return new Date(b.dateAdded) - new Date(a.dateAdded);
+    return new Date(a.closingDate) - new Date(b.closingDate);
   });
   currentPage = 1;
   renderPage();
@@ -49,8 +62,8 @@ function renderPage() {
   if (filtered.length === 0) {
     grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
       <div class="empty-icon">🔍</div>
-      <h3>No opportunities found</h3>
-      <p>Try adjusting your search or filters.</p>
+      <h3>No organisations found</h3>
+      <p>No organisations found. Try another city, province or service.</p>
       <button class="btn btn-outline" style="margin-top:1rem" onclick="clearFilters()">Clear Filters</button>
     </div>`;
     if (pagination) pagination.innerHTML = '';
@@ -116,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById(id)?.addEventListener('change', applyFilters);
   });
   document.getElementById('search-input')?.addEventListener('input', applyFilters);
+  document.getElementById('sort-opportunities')?.addEventListener('change', applyFilters);
   document.getElementById('filter-form')?.addEventListener('submit', e => { e.preventDefault(); applyFilters(); });
   document.getElementById('clear-filters')?.addEventListener('click', clearFilters);
 });

@@ -4,15 +4,56 @@ A mobile-first web portal that aggregates South African youth opportunities — 
 
 ---
 
-## 🔗 Live Demo
+## 🔗 Live Demo and Repository
 
-> Deploy to GitHub Pages, Netlify or Vercel and paste your link here.
+- **Live website:** Add the deployed GitHub Pages, Netlify, or Vercel URL here after publishing.
+- **GitHub repository:** Add the repository URL here after creating the repository.
+- **Deployment method:** GitHub Pages is recommended because this is a static site.
+
+> Do not publish or commit API keys, passwords, tokens, or private environment variables.
 
 ---
 
 ## 📸 Screenshots
 
-> Add screenshots of each page here after deployment.
+Screenshots are intentionally not included because they must be captured from the deployed or locally running website. Capture at least:
+
+- Home page on desktop
+- Opportunities page on desktop
+- Opportunity details page on mobile
+- Career resources page on mobile
+- Contact and report page on mobile
+
+Place the image files in a `screenshots/` folder and use them in this README. The project must not contain placeholder image files that appear as broken links.
+
+---
+
+## 🧭 Wireframes
+
+The wireframes below show the visual structure only. They do not change the website design.
+
+### Home Page
+
+```text
+[Header] [Hero with search] [Statistics] [Categories]
+[Featured Opportunities] [Closing Soon] [Partner Organisations]
+[Career Resources CTA] [Footer]
+```
+
+### Opportunities Page
+
+```text
+[Header] [Page title] [Search + Category + Location + Experience + Closing + Sort]
+[Results count] [Opportunity cards] [Pagination] [Footer]
+```
+
+### Opportunity Details Page
+
+```text
+[Header] [Opportunity title and status] [About] [Requirements]
+[Qualifications] [Documents] [Application Instructions] [Official Source]
+[Apply Now] [Back to Opportunities] [Footer]
+```
 
 ---
 
@@ -30,6 +71,7 @@ Young South Africans often search across multiple websites, social media platfor
 - [x] Location filter
 - [x] Experience level filter (Entry, Student, Graduate)
 - [x] Closing date filter (This week, This month, Still open)
+- [x] Sorting by deadline, title, organisation or newest
 - [x] Dynamic opportunity cards with badges and metadata
 - [x] Deadline countdown badges (🔥 urgent, ⏳ soon, ✅ open)
 - [x] Pagination (9 cards per page)
@@ -40,19 +82,23 @@ Young South Africans often search across multiple websites, social media platfor
 
 ### Pages
 - [x] Home page with hero, search, stats, categories, featured opportunities, deadlines, partner organisations
-- [x] Opportunities listing page with full filter bar
-- [x] Opportunity details page with full description, eligibility, documents, apply button
+- [x] Opportunities listing page with full filter bar and sorting
+- [x] Opportunity details page with full description, eligibility, documents, application and source links
+- [x] Saved Opportunities page with localStorage persistence and removal controls
+- [x] CV Builder page with live preview, localStorage persistence, validation, print and clear controls
 - [x] Career resources page (CV, cover letter, interview, professional profile, scam awareness)
 - [x] Contact & Report page with three tabbed forms
 
 ### Advanced Features
 - [x] Save/bookmark opportunities (localStorage)
 - [x] Recently viewed tracking (localStorage)
+- [x] CV drafts stored only in the browser (localStorage)
 - [x] URL parameter pre-filtering (e.g. `?category=learnership`)
 - [x] Dark mode (respects system preference)
 - [x] Toast notifications
 - [x] Scam warning banner
 - [x] Closing-soon labels
+- [x] Browser print support for CV drafts
 
 ---
 
@@ -90,6 +136,8 @@ Youth_Opportunity&Skills Portal/
 ├── index.html                  # Home page
 ├── opportunities.html          # Opportunities listing
 ├── opportunity-details.html    # Single opportunity details
+├── saved-opportunities.html    # Saved opportunity collection
+├── cv-builder.html            # CV form and live preview
 ├── resources.html              # Career resources
 ├── contact.html                # Contact & report forms
 ├── css/
@@ -97,8 +145,10 @@ Youth_Opportunity&Skills Portal/
 ├── js/
 │   ├── data.js                 # JSON dataset + categories/locations
 │   ├── app.js                  # Shared utilities (cards, nav, save, toast)
-│   ├── opportunities.js        # Filter, search, pagination logic
+│   ├── opportunities.js        # Filter, search, sort, pagination logic
 │   ├── details.js              # Details page rendering
+│   ├── saved.js                # Saved opportunity rendering
+│   ├── cv-builder.js          # CV persistence, preview and print logic
 │   └── contact.js              # Form validation
 └── README.md
 ```
@@ -135,9 +185,14 @@ Youth_Opportunity&Skills Portal/
 - Forms do not send real emails (front-end only demonstration)
 - No backend or database — data is static JSON
 - No real-time opportunity updates
-- Saved opportunities stored in browser localStorage only (not synced across devices)
+- Saved opportunities and CV drafts are stored in browser localStorage only and are not synced across devices
+- Application links must be confirmed by the user before submission
 
 ---
+
+## 🚀 Deployment
+
+The site is a static GitHub Pages-compatible project. Publish the repository root and configure the Pages source as the repository root. No build step or application server is required.
 
 ## 🚀 Recommended Future Improvements
 
@@ -164,12 +219,45 @@ Youth_Opportunity&Skills Portal/
 
 ## 🧪 Testing Evidence
 
-- Tested on Chrome, Firefox and Edge (desktop)
-- Tested on mobile viewport (375px, 414px, 768px)
-- Filter combinations tested for correct results and empty states
-- Form validation tested with empty fields, invalid email, short messages
-- Keyboard navigation tested through all interactive elements
-- Dark mode tested via browser DevTools
+| Check | Evidence |
+|---|---|
+| Desktop browsers | Chrome, Firefox, Edge |
+| Mobile viewports | 375px, 414px, 768px |
+| Search | Keyword, location, service, and natural-language queries |
+| Filters | Category, location, experience, closing date, and sorting |
+| Empty results | Verified message and clear-filter action |
+| Forms | Empty fields, invalid email, and successful submission validation |
+| Accessibility | Semantic landmarks, labels, focus states, ARIA live regions, and keyboard navigation |
+| Responsive layout | Desktop and mobile viewport checks |
+| Search feature | Existing organisation data only; no fake organisations added |
+| Static diagnostics | No JavaScript, HTML, or CSS errors reported |
+
+> Replace the testing table with the exact browser and device evidence from your final test run. Do not claim a browser was tested unless it was actually tested.
+
+## 👤 User Journey
+
+1. The user opens the home page and understands the portal's purpose.
+2. The user searches for a city, province, service, or youth opportunity.
+3. The user reviews matching opportunity cards and their locations.
+4. The user applies category, location, experience, or closing-date filters.
+5. The user opens an opportunity to review eligibility, qualifications, documents, and application instructions.
+6. The user confirms the official source and application deadline before applying.
+7. The user can save an opportunity or report incorrect information.
+
+## 📦 Submission Checklist
+
+- [ ] Live deployment URL is added.
+- [ ] GitHub repository URL is added.
+- [ ] Desktop and mobile screenshots are added.
+- [ ] Wireframes are included.
+- [ ] User journey is documented.
+- [ ] Testing evidence is updated with actual results.
+- [ ] Project files are committed to Git.
+- [ ] The deployed site is tested after the latest changes.
+- [ ] No API keys or private credentials are committed.
+- [ ] All sample opportunities are clearly identified as demonstration information.
+- [ ] Expired opportunity removal policy is documented.
+- [ ] Scam warning and reporting process are available.
 
 ---
 

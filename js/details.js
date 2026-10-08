@@ -19,10 +19,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const saved = getSavedIds().includes(opp.id);
   const days = getDaysUntil(opp.closingDate);
   const description = opp.fullDescription || opp.description || 'No full description has been provided.';
-  const eligibility = Array.isArray(opp.eligibility) && opp.eligibility.length ? opp.eligibility : ['No eligibility requirements have been provided.'];
+  const requirements = Array.isArray(opp.requirements) && opp.requirements.length ? opp.requirements : ['No requirements have been provided.'];
   const qualifications = Array.isArray(opp.qualifications) && opp.qualifications.length ? opp.qualifications : ['No required qualifications have been provided.'];
   const documents = Array.isArray(opp.documents) && opp.documents.length ? opp.documents : ['No required documents have been provided.'];
   const applicationInstructions = opp.applicationInstructions || 'No application instructions have been provided.';
+  const verificationLabel = opp.verified
+    ? '<span class="verification-badge verified">✓ Verified Opportunity</span>'
+    : '<span class="verification-badge pending">⚠ Link needs confirmation</span>';
+  const sourceLink = opp.sourceUrl
+    ? `<a href="${opp.sourceUrl}" target="_blank" rel="noopener noreferrer">${opp.sourceUrl}</a>`
+    : 'No source link has been added yet.';
+  const applicationLink = opp.applicationUrl
+    ? `<a href="${opp.applicationUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-full">Apply Now at ${opp.organisation} &rarr;</a>`
+    : '<p class="application-unavailable">Application link not available. Check the source page before applying.</p>';
 
   const iconOrg = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`;
   const iconPin = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
@@ -46,7 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="meta-item">${iconOrg} <strong>${opp.organisation}</strong></span>
         <span class="meta-item">${iconPin} ${opp.location}</span>
         <span class="meta-item">${iconUser} ${opp.experienceLevel.charAt(0).toUpperCase() + opp.experienceLevel.slice(1)} level</span>
-        <span class="meta-item">${iconCal} Added: ${formatDate(opp.dateAdded)}</span>
+        <span class="meta-item">${iconCal} Closing: ${formatDate(opp.closingDate)}</span>
+      </div>
+      <div class="details-status-row">
+        ${verificationLabel}
+        <span class="status-chip">Last updated ${formatDate(opp.lastUpdated || opp.dateAdded)}</span>
       </div>
       ${getDeadlineBadge(opp.closingDate)}
     </div>
@@ -57,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
 
     <div class="details-section">
-      <h2>Eligibility Requirements</h2>
-      <ul>${eligibility.map(e => `<li>${e}</li>`).join('')}</ul>
+      <h2>Requirements</h2>
+      <ul>${requirements.map(e => `<li>${e}</li>`).join('')}</ul>
     </div>
 
     <div class="details-section">
@@ -76,20 +89,26 @@ document.addEventListener('DOMContentLoaded', () => {
       <p>${applicationInstructions}</p>
     </div>
 
+    <div class="details-section">
+      <h2>Organisation Details</h2>
+      <p><strong>Organisation:</strong> ${opp.organisation}</p>
+      <p><strong>Official source:</strong> ${sourceLink}</p>
+      <p><strong>Verification status:</strong> ${opp.verified ? 'Verified Opportunity' : 'Link needs confirmation'}</p>
+      <p><strong>Last updated:</strong> ${formatDate(opp.lastUpdated || opp.dateAdded)}</p>
+    </div>
+
     <div class="apply-box">
       <h2>Ready to Apply?</h2>
       ${opp.stipend ? `<div class="stipend-badge">${iconMoney} ${opp.stipend}</div>` : ''}
       <p>Application closes: <strong>${formatDate(opp.closingDate)}</strong> ${days >= 0 ? `(${days} days remaining)` : '(Closed)'}</p>
-      ${days >= 0
-        ? `<a href="${opp.applicationLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-full">Apply Now at ${opp.organisation} &rarr;</a>
-           <p style="font-size:0.78rem;margin-top:0.75rem;color:var(--text-muted)">You will be redirected to the organisation's official website. Always verify the opportunity before applying. Never pay a fee to apply.</p>`
-        : `<p style="color:var(--danger);font-weight:700">This opportunity has closed. Check our <a href="opportunities.html">opportunities page</a> for current listings.</p>`
-      }
+      ${days >= 0 ? applicationLink : `<p style="color:var(--danger);font-weight:700">This opportunity has closed. Check our <a href="opportunities.html">opportunities page</a> for current listings.</p>`}
+      <p style="font-size:0.78rem;margin-top:0.75rem;color:var(--text-muted)">Always verify the opportunity on its official source before applying. Never pay a fee to apply.</p>
     </div>
 
     <div class="details-section">
-      <h2>About ${opp.organisation}</h2>
-      <p>Visit the official website: <a href="${opp.organisationUrl}" target="_blank" rel="noopener noreferrer">${opp.organisationUrl}</a></p>
+      <h2>Source Information</h2>
+      <p>Official source: ${sourceLink}</p>
+      <p>Verification status: <strong>${opp.verified ? 'Verified Opportunity' : 'Link needs confirmation'}</strong></p>
     </div>
 
     <div style="margin-top:1rem">
