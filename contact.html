@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Contact us, report incorrect information, suggest a new opportunity or provide feedback about the Youth Opportunity Portal." />
+  <title>Contact & Report – Youth Opportunity Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header>
+    <div class="nav-container">
+      <a href="index.html" class="logo" aria-label="Youth Opportunity Portal Home">
+        <svg class="logo-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        <span>Youth Opportunity Portal</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="main-nav">
+        <span></span><span></span><span></span>
+      </button>
+      <nav id="main-nav" aria-label="Main navigation">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="opportunities.html">Opportunities</a></li>
+          <li><a href="resources.html">Career Resources</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="page-hero">
+    <h1>Contact &amp; Report</h1>
+    <p>Get in touch, report an issue or suggest a new opportunity</p>
+  </div>
+
+  <main id="main">
+    <section class="section">
+      <div class="section-inner">
+
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem" role="tablist" aria-label="Contact forms">
+          <button class="btn btn-primary" id="tab-enquiry" role="tab" aria-selected="true" aria-controls="panel-enquiry" onclick="showTab('enquiry')">General Enquiry</button>
+          <button class="btn btn-outline" id="tab-report" role="tab" aria-selected="false" aria-controls="panel-report" onclick="showTab('report')">Report an Issue</button>
+          <button class="btn btn-outline" id="tab-suggest" role="tab" aria-selected="false" aria-controls="panel-suggest" onclick="showTab('suggest')">Suggest Opportunity</button>
+        </div>
+
+        <div class="contact-grid">
+
+          <div id="panel-enquiry" role="tabpanel" aria-labelledby="tab-enquiry">
+            <div class="form-card">
+              <h2>General Enquiry</h2>
+              <div id="enquiry-form-success" class="form-success" role="alert">
+                Thank you! Your enquiry has been received. We will respond within 2–3 business days.
+              </div>
+              <form id="enquiry-form" novalidate aria-label="General enquiry form">
+                <div class="form-group">
+                  <label for="eq-name">Full Name <span aria-hidden="true">*</span></label>
+                  <input type="text" id="eq-name" name="name" required minlength="2" autocomplete="name" placeholder="Your full name" />
+                  <span class="field-error" id="eq-name-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="eq-email">Email Address <span aria-hidden="true">*</span></label>
+                  <input type="email" id="eq-email" name="email" required autocomplete="email" placeholder="your@email.com" />
+                  <span class="field-error" id="eq-email-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="eq-subject">Subject <span aria-hidden="true">*</span></label>
+                  <select id="eq-subject" name="subject" required>
+                    <option value="">Select a subject…</option>
+                    <option value="opportunity">Question about an opportunity</option>
+                    <option value="platform">Question about the platform</option>
+                    <option value="partnership">Partnership enquiry</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <span class="field-error" id="eq-subject-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="eq-message">Message <span aria-hidden="true">*</span></label>
+                  <textarea id="eq-message" name="message" required minlength="20" placeholder="How can we help you?"></textarea>
+                  <span class="field-error" id="eq-message-error" role="alert"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Send Enquiry</button>
+              </form>
+            </div>
+          </div>
+
+          <div id="panel-report" role="tabpanel" aria-labelledby="tab-report" hidden>
+            <div class="form-card">
+              <h2>Report Incorrect or Expired Information</h2>
+              <div id="report-form-success" class="form-success" role="alert">
+                Thank you for your report! We will review and update the information within 48 hours.
+              </div>
+              <form id="report-form" novalidate aria-label="Report an issue form">
+                <div class="form-group">
+                  <label for="rp-name">Your Name <span aria-hidden="true">*</span></label>
+                  <input type="text" id="rp-name" name="name" required minlength="2" autocomplete="name" placeholder="Your full name" />
+                  <span class="field-error" id="rp-name-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="rp-email">Email Address <span aria-hidden="true">*</span></label>
+                  <input type="email" id="rp-email" name="email" required autocomplete="email" placeholder="your@email.com" />
+                  <span class="field-error" id="rp-email-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="rp-opportunity">Opportunity Title <span aria-hidden="true">*</span></label>
+                  <input type="text" id="rp-opportunity" name="opportunity" required minlength="3" placeholder="Name of the opportunity" />
+                  <span class="field-error" id="rp-opportunity-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="rp-issue">Issue Type <span aria-hidden="true">*</span></label>
+                  <select id="rp-issue" name="issue" required>
+                    <option value="">Select issue type…</option>
+                    <option value="expired">Opportunity has expired</option>
+                    <option value="incorrect">Incorrect information</option>
+                    <option value="broken-link">Broken application link</option>
+                    <option value="scam">Suspected scam</option>
+                    <option value="other">Other</option>
+                  </select>
+                  <span class="field-error" id="rp-issue-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="rp-details">Details <span aria-hidden="true">*</span></label>
+                  <textarea id="rp-details" name="details" required minlength="20" placeholder="Please describe the issue in detail…"></textarea>
+                  <span class="field-error" id="rp-details-error" role="alert"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Submit Report</button>
+              </form>
+            </div>
+          </div>
+
+          <div id="panel-suggest" role="tabpanel" aria-labelledby="tab-suggest" hidden>
+            <div class="form-card">
+              <h2>Suggest a New Opportunity</h2>
+              <div id="suggest-form-success" class="form-success" role="alert">
+                Thank you for your suggestion! We will review and consider adding it to the portal.
+              </div>
+              <form id="suggest-form" novalidate aria-label="Suggest an opportunity form">
+                <div class="form-group">
+                  <label for="sg-name">Your Name <span aria-hidden="true">*</span></label>
+                  <input type="text" id="sg-name" name="name" required minlength="2" autocomplete="name" placeholder="Your full name" />
+                  <span class="field-error" id="sg-name-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="sg-email">Email Address <span aria-hidden="true">*</span></label>
+                  <input type="email" id="sg-email" name="email" required autocomplete="email" placeholder="your@email.com" />
+                  <span class="field-error" id="sg-email-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="sg-opp-title">Opportunity Title <span aria-hidden="true">*</span></label>
+                  <input type="text" id="sg-opp-title" name="opp-title" required minlength="3" placeholder="e.g. Web Development Learnership" />
+                  <span class="field-error" id="sg-opp-title-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="sg-org">Organisation Name <span aria-hidden="true">*</span></label>
+                  <input type="text" id="sg-org" name="org" required minlength="2" placeholder="Organisation offering the opportunity" />
+                  <span class="field-error" id="sg-org-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="sg-url">Official Link</label>
+                  <input type="url" id="sg-url" name="url" placeholder="https://organisation.co.za/apply" />
+                  <span class="field-error" id="sg-url-error" role="alert"></span>
+                </div>
+                <div class="form-group">
+                  <label for="sg-details">Additional Details <span aria-hidden="true">*</span></label>
+                  <textarea id="sg-details" name="details" required minlength="20" placeholder="Describe the opportunity, eligibility, closing date…"></textarea>
+                  <span class="field-error" id="sg-details-error" role="alert"></span>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full">Submit Suggestion</button>
+              </form>
+            </div>
+          </div>
+
+          <div>
+            <div class="form-card" style="margin-bottom:1rem">
+              <h2>About This Portal</h2>
+              <p style="font-size:0.875rem;color:var(--text-muted);line-height:1.7">
+                This portal is a demonstration project. Forms do not send real emails. In a live version, submissions would be reviewed by our team within 2–3 business days.
+              </p>
+              <p style="font-size:0.875rem;color:var(--text-muted);margin-top:0.75rem;line-height:1.7">
+                <strong>Expired opportunities</strong> are reviewed and removed on the first Monday of each month.
+              </p>
+            </div>
+            <div class="form-card" style="border-left:4px solid var(--danger)">
+              <h2 style="color:var(--danger)">Scam Warning</h2>
+              <p style="font-size:0.875rem;color:var(--text-muted);line-height:1.7">
+                If you have encountered a fraudulent opportunity, report it immediately using the "Report an Issue" form. You can also report employment scams to:
+              </p>
+              <ul style="font-size:0.875rem;color:var(--text-muted);padding-left:1.25rem;list-style:disc;margin-top:0.5rem">
+                <li>South African Police Service (SAPS): 10111</li>
+                <li>CIPC: <a href="https://cipc.co.za" target="_blank" rel="noopener">cipc.co.za</a></li>
+                <li>Department of Labour: <a href="https://labour.gov.za" target="_blank" rel="noopener">labour.gov.za</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        <p>© 2025 Youth Opportunity &amp; Skills Portal · <a href="index.html" style="color:rgba(255,255,255,0.6)">Home</a> · <a href="opportunities.html" style="color:rgba(255,255,255,0.6)">Opportunities</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/contact.js"></script>
+  <script>
+    function showTab(tab) {
+      ['enquiry', 'report', 'suggest'].forEach(t => {
+        const panel = document.getElementById(`panel-${t}`);
+        const btn = document.getElementById(`tab-${t}`);
+        const active = t === tab;
+        panel.hidden = !active;
+        btn.setAttribute('aria-selected', active);
+        btn.className = active ? 'btn btn-primary' : 'btn btn-outline';
+      });
+    }
+  </script>
+</body>
+</html>
