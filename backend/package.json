@@ -1,0 +1,22 @@
+{
+  "name": "youth-opportunity-portal-api",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Express and SQLite API for the Youth Opportunity & Skills Portal",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test",
+    "admin:promote": "node scripts/promote-admin.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.0.0"
+  }
+}

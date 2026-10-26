@@ -5,7 +5,14 @@ function getDaysUntil(dateStr) {
 }
 
 function formatDate(dateStr) {
+  if (!dateStr) return 'Not provided';
   return new Date(dateStr).toLocaleDateString('en-ZA', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
 }
 
 function getDeadlineBadge(dateStr) {
@@ -28,7 +35,7 @@ function getCategoryLabel(cat) {
 function getSavedIds() {
   try {
     const saved = JSON.parse(localStorage.getItem('savedOpps') || '[]');
-    return Array.isArray(saved) ? saved.filter(id => Number.isInteger(id)) : [];
+    return Array.isArray(saved) ? saved.filter(id => Number.isInteger(id) || typeof id === 'string') : [];
   } catch (error) {
     console.warn('Saved opportunities could not be read.', error);
     return [];
@@ -63,27 +70,28 @@ function renderCard(opp) {
   return `
     <article class="opp-card" role="article">
       <div class="card-header">
-        <h3 class="card-title">${opp.title}</h3>
-        <button class="save-btn ${saved ? 'saved' : ''}" data-id="${opp.id}" onclick="toggleSave(${opp.id})" aria-label="${saved ? 'Remove from saved' : 'Save opportunity'}" title="Save opportunity">
+        <h3 class="card-title">${escapeHTML(opp.title)}</h3>
+        <button class="save-btn ${saved ? 'saved' : ''}" data-id="${opp.id}" aria-label="${saved ? 'Remove from saved' : 'Save opportunity'}" title="Save opportunity">
           ${saved ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent)" stroke="var(--accent)" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'}
         </button>
       </div>
       <div class="card-meta">
         <span class="${getBadgeClass(opp.category)}">${getCategoryLabel(opp.category)}</span>
-        <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> ${opp.organisation}</span>
-        <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${opp.location}</span>
+        <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> ${escapeHTML(opp.organisation)}</span>
+        <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${escapeHTML(opp.province || opp.location)}</span>
         <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> ${opp.experienceLevel.charAt(0).toUpperCase() + opp.experienceLevel.slice(1)}</span>
       </div>
-      <p class="card-desc">${opp.description}</p>
+      <p class="card-desc">${escapeHTML(opp.description)}</p>
+      <div class="opportunity-check-meta"><span class="verification-badge ${opp.expired ? 'expired' : 'verified'}">${opp.expired ? 'Expired opportunity' : 'Verified opportunity'}</span><span>Last checked ${escapeHTML(formatDate(opp.dateChecked))}</span></div>
       <div class="card-footer">
         <div>
-          <span class="closing-date ${closingClass}">Closes: ${formatDate(opp.closingDate)}</span>
-          <br>${getDeadlineBadge(opp.closingDate)}
+          <span class="closing-date ${closingClass}">Closes: ${escapeHTML(formatDate(opp.closingDate))}</span>
+          <br>${opp.expired ? '<span class="deadline-badge deadline-urgent">Expired</span>' : getDeadlineBadge(opp.closingDate)}
         </div>
         <div class="card-actions">
-          <a href="opportunity-details.html?id=${opp.id}" class="btn btn-outline btn-sm">View Details</a>
-          ${opp.applicationUrl
-            ? `<a href="${opp.applicationUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Apply Now →</a>`
+          <a href="opportunity-details.html?id=${encodeURIComponent(opp.id)}" class="btn btn-outline btn-sm">View Details</a>
+          ${opp.applicationUrl && !opp.expired
+            ? `<a href="${escapeHTML(opp.applicationUrl)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Apply on official website</a>`
             : `<span class="application-unavailable">Application link pending</span>`}
         </div>
       </div>
@@ -95,6 +103,17 @@ function initNav() {
   const hamburger = document.getElementById('hamburger');
   const nav = document.getElementById('main-nav');
   if (!hamburger || !nav) return;
+  const navList = nav.querySelector('ul');
+  if (navList && !navList.querySelector('a[href="account.html"]')) {
+    const accountItem = document.createElement('li');
+    const accountLink = document.createElement('a');
+    accountLink.href = 'account.html';
+    accountLink.textContent = 'Account';
+    const contactItem = navList.querySelector('a[href="contact.html"]')?.parentElement;
+    accountItem.appendChild(accountLink);
+    if (contactItem) navList.insertBefore(accountItem, contactItem);
+    else navList.appendChild(accountItem);
+  }
   hamburger.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
     hamburger.setAttribute('aria-expanded', open);
@@ -114,3 +133,7 @@ function initNav() {
 }
 
 document.addEventListener('DOMContentLoaded', initNav);
+document.addEventListener('click', (event) => {
+  const button = event.target.closest('.save-btn[data-id]');
+  if (button) toggleSave(button.dataset.id);
+});

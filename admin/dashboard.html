@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Administrator overview for the Youth Opportunity Portal." />
+  <title>Admin Dashboard – Youth Opportunity Portal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,400,0,0" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body class="admin-page">
+  <a href="#admin-main" class="skip-link">Skip to administration dashboard</a>
+  <header class="admin-topbar">
+    <div class="admin-brand">
+      <a class="admin-brand-icon" href="../index.html" aria-label="Youth Opportunity Portal home"><span class="material-symbols-outlined" aria-hidden="true">north_east</span></a>
+      <span>Youth Opportunity <strong>Portal</strong></span>
+    </div>
+    <div class="admin-top-actions">
+      <a class="admin-view-site" href="../index.html"><span class="material-symbols-outlined" aria-hidden="true">open_in_new</span><span>View portal</span></a>
+      <div class="admin-identity"><span class="material-symbols-outlined" aria-hidden="true">admin_panel_settings</span><span><strong id="admin-name">Administrator</strong><small id="admin-email">Loading profile…</small></span></div>
+      <button class="btn admin-logout" id="admin-logout" type="button"><span class="material-symbols-outlined" aria-hidden="true">logout</span><span>Log out</span></button>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar" aria-label="Administration navigation">
+      <p class="admin-sidebar-label">ADMINISTRATION</p>
+      <a class="admin-side-link is-current" href="dashboard.html" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">space_dashboard</span><span>Overview</span></a>
+      <a class="admin-side-link" href="opportunities.html"><span class="material-symbols-outlined" aria-hidden="true">work_outline</span><span>Opportunities</span></a>
+      <a class="admin-side-link" href="#recent-users"><span class="material-symbols-outlined" aria-hidden="true">group</span><span>Recent users</span></a>
+      <a class="admin-side-link" href="#recent-requests"><span class="material-symbols-outlined" aria-hidden="true">support_agent</span><span>Requests</span></a>
+      <div class="admin-sidebar-bottom"><span class="material-symbols-outlined" aria-hidden="true">verified_user</span><span>Administrator access is role-verified.</span></div>
+    </aside>
+
+    <main id="admin-main" class="admin-main container-fluid">
+      <div id="admin-loading" class="admin-loading" role="status"><span class="material-symbols-outlined" aria-hidden="true">progress_activity</span>Loading administrator overview…</div>
+      <div id="admin-error" class="alert alert-danger" role="alert" hidden></div>
+      <div id="admin-content" hidden>
+        <div class="admin-heading-row">
+          <div><p class="admin-eyebrow">PORTAL OPERATIONS</p><h1>Admin overview</h1><p class="admin-subtitle">A live snapshot of users, opportunities and support activity.</p></div>
+          <a class="btn admin-primary-action" href="opportunities.html"><span class="material-symbols-outlined" aria-hidden="true">search</span>Manage opportunities</a>
+        </div>
+
+        <section class="admin-metrics row g-3" aria-label="Portal summary">
+          <article class="col-6 col-xl-3"><div class="admin-metric"><div class="admin-metric-top"><span>Youth users</span><span class="material-symbols-outlined" aria-hidden="true">groups</span></div><strong id="metric-youth">—</strong><small>Registered accounts</small></div></article>
+          <article class="col-6 col-xl-3"><div class="admin-metric"><div class="admin-metric-top"><span>Published</span><span class="material-symbols-outlined" aria-hidden="true">campaign</span></div><strong id="metric-published">—</strong><small>Live opportunities</small></div></article>
+          <article class="col-6 col-xl-3"><div class="admin-metric"><div class="admin-metric-top"><span>Awaiting review</span><span class="material-symbols-outlined" aria-hidden="true">pending_actions</span></div><strong id="metric-pending">—</strong><small>Unpublished opportunities</small></div></article>
+          <article class="col-6 col-xl-3"><div class="admin-metric"><div class="admin-metric-top"><span>Service activity</span><span class="material-symbols-outlined" aria-hidden="true">support_agent</span></div><strong id="metric-activity">—</strong><small><span id="metric-applications">—</span> applications · <span id="metric-requests">—</span> requests</small></div></article>
+        </section>
+
+        <div class="row g-3 admin-data-row">
+          <section class="col-xl-7" id="recent-users" aria-labelledby="recent-users-title">
+            <div class="admin-panel h-100">
+              <div class="admin-panel-heading"><div><p class="admin-eyebrow">NEW ACCOUNTS</p><h2 id="recent-users-title">Recent registrations</h2></div><span class="material-symbols-outlined" aria-hidden="true">person_add</span></div>
+              <div class="table-responsive">
+                <table class="table admin-table align-middle mb-0">
+                  <thead><tr><th scope="col">User</th><th scope="col">Province</th><th scope="col">Role</th><th scope="col">Joined</th></tr></thead>
+                  <tbody id="recent-users-body"><tr><td colspan="4" class="text-center">Loading registrations…</td></tr></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+          <section class="col-xl-5" aria-labelledby="recent-activity-title">
+            <div class="admin-panel h-100">
+              <div class="admin-panel-heading"><div><p class="admin-eyebrow">LATEST UPDATES</p><h2 id="recent-activity-title">Recent activity</h2></div><span class="material-symbols-outlined" aria-hidden="true">history</span></div>
+              <div id="recent-activity" class="admin-activity-list"><p class="admin-empty">Loading activity…</p></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="admin-request-section" id="recent-requests" aria-labelledby="recent-requests-title">
+          <div class="admin-panel">
+            <div class="admin-panel-heading"><div><p class="admin-eyebrow">USER SUPPORT</p><h2 id="recent-requests-title">Recent requests</h2></div><span class="material-symbols-outlined" aria-hidden="true">support_agent</span></div>
+            <div class="table-responsive">
+              <table class="table admin-table admin-requests-table align-middle mb-0">
+                <thead><tr><th scope="col">Request</th><th scope="col">Submitted by</th><th scope="col">Category</th><th scope="col">Submitted</th><th scope="col">Review status</th></tr></thead>
+                <tbody id="recent-requests-body"><tr><td colspan="5" class="text-center">Loading requests…</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="../js/portal-api.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

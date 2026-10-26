@@ -24,19 +24,16 @@ function renderSavedOpportunities() {
     return;
   }
 
-  container.innerHTML = saved.map(opportunity => `
-    <article class="opp-card">
-      <div class="card-header">
-        <div><span class="badge badge-${opportunity.category}">${getCategoryLabel(opportunity.category)}</span><h3 class="card-title" style="margin-top:0.5rem">${opportunity.title}</h3></div>
-        <button class="save-btn saved" data-id="${opportunity.id}" onclick="toggleSave(${opportunity.id})" aria-label="Remove ${opportunity.title} from saved opportunities" title="Remove from saved">♥</button>
-      </div>
-      <div class="card-meta"><span class="meta-item">${opportunity.organisation}</span><span class="meta-item">${opportunity.location}</span></div>
-      <p class="card-desc">${opportunity.description}</p>
-      <div class="card-footer"><span class="closing-date">${getDeadlineBadge(opportunity.closingDate)}</span><div class="card-actions"><a href="opportunity-details.html?id=${opportunity.id}" class="btn btn-outline btn-sm">View Details</a>${opportunity.applicationUrl ? `<a href="${opportunity.applicationUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Apply Now →</a>` : ''}</div></div>
-    </article>`).join('');
+  container.innerHTML = saved.map(renderCard).join('');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await window.opportunitiesReady;
+  } catch (error) {
+    document.getElementById('saved-content').textContent = error.message || 'Opportunities could not be loaded.';
+    return;
+  }
   renderSavedOpportunities();
   document.addEventListener('click', event => {
     if (event.target.closest('.save-btn[data-id]')) {

@@ -8,6 +8,7 @@ Thumbs.db
 *.log
 *.tmp
 *.swp
+node_modules/
 
 # Optional local environment files
 .env

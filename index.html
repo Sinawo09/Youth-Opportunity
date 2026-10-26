@@ -59,8 +59,8 @@
     <!-- STATS -->
     <div class="stats-bar" aria-label="Portal statistics">
       <div class="stats-inner">
-        <div class="stat-item"><strong id="stat-total">12</strong><span>Opportunities</span></div>
-        <div class="stat-item"><strong>5</strong><span>Categories</span></div>
+        <div class="stat-item"><strong id="stat-total">—</strong><span>Opportunities</span></div>
+        <div class="stat-item"><strong id="stat-categories">—</strong><span>Categories</span></div>
         <div class="stat-item"><strong>9+</strong><span>Organisations</span></div>
         <div class="stat-item"><strong>ZA</strong><span>South Africa</span></div>
       </div>
@@ -72,7 +72,7 @@
         <div class="section-header">
           <h2 id="categories-heading">Browse by Category</h2>
         </div>
-        <div class="categories-grid" id="categories-grid" role="list"></div>
+        <div class="categories-grid" id="categories-grid" role="list"><p class="loading-state" role="status">Loading opportunities…</p></div>
       </div>
     </section>
 
@@ -83,7 +83,7 @@
           <h2 id="featured-heading">Featured Opportunities</h2>
           <a href="opportunities.html" class="btn btn-outline btn-sm">View All →</a>
         </div>
-        <div class="cards-grid" id="featured-grid" aria-live="polite"></div>
+        <div class="cards-grid" id="featured-grid" aria-live="polite"><p class="loading-state" role="status">Loading opportunities…</p></div>
       </div>
     </section>
 
@@ -94,7 +94,7 @@
           <h2 id="deadlines-heading">Closing Soon</h2>
           <a href="opportunities.html?closing=month" class="btn btn-outline btn-sm">See All →</a>
         </div>
-        <div class="deadlines-list" id="deadlines-list" aria-live="polite"></div>
+        <div class="deadlines-list" id="deadlines-list" aria-live="polite"><p class="loading-state" role="status">Loading opportunities…</p></div>
       </div>
     </section>
 
@@ -123,15 +123,16 @@
   <footer>
     <div class="footer-inner">
       <div class="footer-disclaimer">
-        <strong>Disclaimer:</strong> This portal contains sample and publicly available demonstration information. Always verify opportunities directly with the organisation. Information was last updated June 2025. Expired opportunities are removed monthly.
+        <strong>Disclaimer:</strong> Opportunities are listed only after an administrator checks the official notice and application page. Confirm current details with the organisation before applying.
       </div>
       <div class="footer-grid">
         <div class="footer-col">
           <h3>Youth Opportunity Portal</h3>
-          <p>A free platform helping South African youth find learnerships, internships, bursaries and skills programmes in one place.</p>
+          <p>A free guide to official jobs, training, study and skills opportunities for South African youth.</p>
         </div>
         <div class="footer-col">
           <h3>Quick Links</h3>
+
           <ul>
             <li><a href="opportunities.html">All Opportunities</a></li>
             <li><a href="opportunities.html?category=learnership">Learnerships</a></li>
@@ -153,21 +154,35 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 Youth Opportunity & Skills Portal · Built for South African Youth · Sample project for educational purposes</p>
+        <p>© 2026 Youth Opportunity & Skills Portal · Built for South African Youth</p>
       </div>
     </div>
   </footer>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-  <script src="js/data.js"></script>
+  <script src="js/opportunity-data.js"></script>
   <script src="js/youth-search.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/api-opportunities.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        await window.opportunitiesReady;
+      } catch (error) {
+        const message = error.message || 'Opportunities could not be loaded. Please try again later.';
+        for (const id of ['categories-grid', 'featured-grid', 'deadlines-list']) {
+          const region = document.getElementById(id);
+          if (region) region.textContent = message;
+        }
+        return;
+      }
+      document.getElementById('stat-total').textContent = opportunities.length.toLocaleString();
+      document.getElementById('stat-categories').textContent = new Set(opportunities.map(item => item.category)).size.toLocaleString();
       // Category SVG icons
       const catIcons = {
         learnership: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>',
+        apprenticeship: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>',
         internship: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8" aria-hidden="true"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>',
         bursary: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>',
         course: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.8" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
@@ -191,7 +206,9 @@
       const featuredGrid = document.getElementById('featured-grid');
       if (featuredGrid) {
         const featured = opportunities.filter(o => getDaysUntil(o.closingDate) >= 0).slice(0, 3);
-        featuredGrid.innerHTML = featured.map(renderCard).join('');
+        featuredGrid.innerHTML = featured.length
+          ? featured.map(renderCard).join('')
+          : '<p class="empty-state">No verified active opportunities are available right now. Check back for new listings.</p>';
       }
 
       // Deadlines: next 5 closing soonest
@@ -201,19 +218,19 @@
           .filter(o => getDaysUntil(o.closingDate) >= 0)
           .sort((a, b) => new Date(a.closingDate) - new Date(b.closingDate))
           .slice(0, 5);
-        deadlinesList.innerHTML = sorted.map(o => {
+        deadlinesList.innerHTML = sorted.length ? sorted.map(o => {
           const days = getDaysUntil(o.closingDate);
           return `<div class="deadline-item ${days <= 14 ? 'urgent' : ''}">
             <div>
-              <h4>${o.title}</h4>
-              <p>${o.organisation} · ${o.location}</p>
+              <h4>${escapeHTML(o.title)}</h4>
+              <p>${escapeHTML(o.organisation)} · ${escapeHTML(o.province || o.location)}</p>
             </div>
             <div style="text-align:right;flex-shrink:0">
               ${getDeadlineBadge(o.closingDate)}
-              <br><a href="${o.applicationLink}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" style="margin-top:0.4rem">Apply →</a>
+              <br><a href="${escapeHTML(o.applicationLink)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline" style="margin-top:0.4rem">Official application</a>
             </div>
           </div>`;
-        }).join('');
+        }).join('') : '<p class="empty-state">No verified deadlines are coming up. Browse official sources for future notices.</p>';
       }
 
       // Organisations

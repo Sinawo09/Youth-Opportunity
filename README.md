@@ -124,8 +124,11 @@ Young South Africans often search across multiple websites, social media platfor
 - HTML5 (semantic elements)
 - CSS3 (Flexbox, CSS Grid, custom properties, media queries)
 - Vanilla JavaScript (ES6+)
-- JSON dataset (`js/data.js`)
+- Live opportunity records from the authenticated backend API
 - localStorage (saved opportunities, recently viewed)
+- Optional Node.js / Express / SQLite API (`backend/`)
+
+Backend setup, API route permissions, and Postman testing instructions are in [backend/README.md](backend/README.md).
 
 ---
 
@@ -143,7 +146,7 @@ Youth_Opportunity&Skills Portal/
 ├── css/
 │   └── style.css               # All styles (mobile-first)
 ├── js/
-│   ├── data.js                 # JSON dataset + categories/locations
+│   ├── opportunity-data.js     # API response mapping + categories/locations
 │   ├── app.js                  # Shared utilities (cards, nav, save, toast)
 │   ├── opportunities.js        # Filter, search, sort, pagination logic
 │   ├── details.js              # Details page rendering
@@ -171,10 +174,16 @@ Youth_Opportunity&Skills Portal/
 
 ## ⚠️ Responsible Content
 
-- All opportunities are sample/demonstration data
-- Each opportunity is clearly labelled as a sample
-- Application links point to real organisation websites for reference only
+- Public opportunities are served only from verified, unexpired backend records
+- Each public card displays its verification state and last-checked date
+- Application links open the opportunity's direct official application page
 - Scam warning displayed prominently on home page and details page
+
+## Official Opportunity Data
+
+The current workspace uses the SQLite API in `backend/`; it has no configured Supabase URL, Supabase client, or Supabase migration. Opportunity records are added through the admin page at `admin/opportunities.html`, saved as unverified drafts, and published only after an administrator checks the specific official notice and direct application page. See [backend setup and verification workflow](backend/README.md).
+
+No automated collector is enabled. The checked official source pages do not expose a public structured feed in the available evidence; see the backend README for the pages checked and the manual verification steps. Do not put Supabase service-role credentials or other private keys in frontend code.
 - Expired opportunities policy: reviewed and removed on the first Monday of each month
 - Date added/updated shown on each opportunity
 
@@ -183,7 +192,7 @@ Youth_Opportunity&Skills Portal/
 ## 🚧 Known Limitations
 
 - Forms do not send real emails (front-end only demonstration)
-- No backend or database — data is static JSON
+- The static frontend remains usable without the optional backend; API-backed accounts and records require the backend and its local SQLite database to be running
 - No real-time opportunity updates
 - Saved opportunities and CV drafts are stored in browser localStorage only and are not synced across devices
 - Application links must be confirmed by the user before submission
@@ -255,7 +264,7 @@ The site is a static GitHub Pages-compatible project. Publish the repository roo
 - [ ] Project files are committed to Git.
 - [ ] The deployed site is tested after the latest changes.
 - [ ] No API keys or private credentials are committed.
-- [ ] All sample opportunities are clearly identified as demonstration information.
+- [ ] Every public opportunity has a checked official notice, direct application URL, and future closing date.
 - [ ] Expired opportunity removal policy is documented.
 - [ ] Scam warning and reporting process are available.
 
