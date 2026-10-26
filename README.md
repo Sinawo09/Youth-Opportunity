@@ -130,6 +130,10 @@ Young South Africans often search across multiple websites, social media platfor
 
 Backend setup, API route permissions, and Postman testing instructions are in [backend/README.md](backend/README.md).
 
+### Run locally
+
+Install backend dependencies once with `npm --prefix backend install`. From the project root, run `npm run dev`; it reuses a healthy API already listening on the configured port. Serve the frontend at `http://localhost:5500` with VS Code Live Server or `python -m http.server 5500`, then open `http://localhost:5500/account.html`. Run backend tests with `npm test`.
+
 ---
 
 ## 📁 Project Structure

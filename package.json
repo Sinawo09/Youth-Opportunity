@@ -1,0 +1,8 @@
+{
+  "name": "youth-opportunity-skills-portal",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix backend run dev",
+    "test": "npm --prefix backend test"
+  }
+}

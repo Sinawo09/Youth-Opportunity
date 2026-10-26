@@ -9,14 +9,14 @@ The portal API uses Express and a local SQLite database; it requires no remote d
 
 ## Install and start
 
-From this `backend` directory:
+From the project root, install the backend dependencies once and start the API with:
 
 ```powershell
-npm.cmd install
-npm.cmd run dev
+npm install --prefix backend
+npm run dev
 ```
 
-The API listens on port `5000`. Open `http://localhost:5000/api/health`; a healthy response is `{"success":true,"data":{"status":"ok"}}`. Serve the website from an allowed local origin such as `http://localhost:5500` or `http://127.0.0.1:5500`.
+The root command reuses an already healthy API on the configured port. If another process owns that port but is not this API, startup reports the conflict and leaves the process untouched. You can also run `npm.cmd run dev` from this `backend` directory. The API listens on port `5000` by default; `PORT` can override it. If you override the port, set `window.YOP_API_BASE_URL` to `http://localhost:<port>` before the frontend API scripts load. Open `http://localhost:5000/api/health`; a healthy response is `{"success":true,"data":{"status":"ok"}}`. Serve the website from an allowed local origin such as `http://localhost:5500` or `http://127.0.0.1:5500`.
 
 SQLite creates its schema automatically on first startup. By default, the database is `backend/data/portal.sqlite`; set `SQLITE_DB_PATH` in `.env` to use another file. Versioned SQL migrations in `db/migrations/` are applied once and recorded in `schema_migrations`. The opportunity verification migration archives old rows tagged `sample:*` by unpublishing them, clearing their mock URLs and retaining their records so saved items and application history are not cascaded away. The database, WAL, and shared-memory files are ignored by Git. Back up the SQLite file regularly and stop the API before copying it.
 

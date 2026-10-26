@@ -63,7 +63,7 @@
     try {
       response = await fetch(`${API_BASE}${path}`, { ...options, headers });
     } catch {
-      throw new Error(`Cannot reach the API at ${API_BASE}. Start the backend with npm run dev and allow this website's origin in FRONTEND_ORIGIN.`);
+      throw new Error(`Network or CORS failure calling ${API_BASE}${path} from ${window.location.origin}. Check that the backend is running and FRONTEND_ORIGIN allows this origin.`);
     }
     const payload = await response.json().catch(() => ({}));
 
@@ -86,7 +86,7 @@
       const details = payload.error?.details || [];
       const message = details.length
         ? details.map((item) => `${item.field}: ${item.message}`).join(' ')
-        : payload.error?.message || 'The request could not be completed.';
+        : payload.error?.message || `The API request failed with HTTP ${response.status}.`;
       const error = new Error(message);
       error.status = response.status;
       error.code = payload.error?.code;

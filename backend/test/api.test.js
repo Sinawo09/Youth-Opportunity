@@ -1,4 +1,5 @@
 process.env.SQLITE_DB_PATH = ':memory:';
+process.env.FRONTEND_ORIGIN = 'http://localhost:5500,http://127.0.0.1:5500';
 
 const assert = require('node:assert/strict');
 const { after, before, test } = require('node:test');
@@ -43,6 +44,17 @@ test('SQLite health, validation, empty opportunity results, and not-found respon
   const health = await request('/api/health');
   assert.equal(health.response.status, 200);
   assert.deepEqual(health.payload, { success: true, data: { status: 'ok' } });
+
+  const preflight = await fetch(`${baseUrl}/api/auth/login`, {
+    method: 'OPTIONS',
+    headers: {
+      Origin: 'http://localhost:5500',
+      'Access-Control-Request-Method': 'POST',
+      'Access-Control-Request-Headers': 'content-type'
+    }
+  });
+  assert.equal(preflight.status, 204);
+  assert.equal(preflight.headers.get('access-control-allow-origin'), 'http://localhost:5500');
 
   const config = await request('/api/public-config');
   assert.equal(config.response.status, 200);
